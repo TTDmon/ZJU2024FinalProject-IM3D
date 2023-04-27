@@ -8,7 +8,7 @@
 import AVFoundation
 import Foundation
 
-class CameraManager {
+class CameraManager :NSObject, ObservableObject,AVCaptureFileOutputRecordingDelegate{
     
     //Camera status
     enum Status {
@@ -17,89 +17,68 @@ class CameraManager {
         case configureFailed
         case configured
     }
+    unowned private var viewController:ViewController!
     private var status : Status = .unConfigured
-    var exposuretime:CMTimeValue=1
-    
     //Camera errors
     private(set) var error: CameraError?
     
     //Capture session
     private let videoSession = AVCaptureSession()
     private let sessionQueue = DispatchQueue(label: "CameraManager.sessionQueue")
+    //private let outputQueue = DispatchQueue(label: "CameraManager.outputQueue")
     
     //Data input and output
-    private(set) var frontTrueDepthCameraInput : AVCaptureDeviceInput!
-    let frontTrueDepthCameraVideoOutput = AVCaptureVideoDataOutput()
-    private var frontTrueDepthCameraOutputSynchronizer: AVCaptureDataOutputSynchronizer!
+    private(set) var fileInput : AVCaptureDeviceInput!
+    let movieFileOutput = AVCaptureMovieFileOutput()
     
-    private let outputQueue = DispatchQueue(label: "CameraManager.outputQueue")
     
-    init() {
+    init(viewcontroller:ViewController) {
         print("CameraManager_init")
+        super.init()
+        self.viewController=viewcontroller
         //Firstly check permissions
         self.checkPermissions()
         //Then configure cameras
         self.sessionQueue.async {
             self.configureCaptureSession()
         }
+        self.startVideoSession()
         print("CameraManager_init done")
     }
-    func Canaddexposuretime()->Bool{
-        if(exposuretime<100){
-            return true
-        }
-        else{
-            return false}
-    }
-    func Addexposuretime(){
-        print("--------------------")
-        if(exposuretime<100){
-            exposuretime+=1
-            status = .unConfigured
-        
-            guard let frontTrueDepthCamera = AVCaptureDevice.default(.builtInTrueDepthCamera, for: .video, position: .front) else {
-                self.status = .configureFailed
-                self.error = .cameraUnavailable("Front True Depth Camera")
-                return
-            }
-            do{
-                try frontTrueDepthCamera.lockForConfiguration()
-                frontTrueDepthCamera.setExposureModeCustom(duration: CMTime(value: self.exposuretime, timescale: 2000), iso: 18) { cmTime in
-                //frontTrueDepthCamera.setExposureModeCustom(duration: frontTrueDepthCamera.activeFormat.maxExposureDuration, iso: 18) { cmTime in
-                    print("Finish configure exposure")
-                    print(frontTrueDepthCamera.exposureDuration)
-                    print(frontTrueDepthCamera.iso)
-                }
-                //frontTrueDepthCamera.unlockForConfiguration()
-                return
-                
-            }
-            catch{
-                self.status = .configureFailed
-                self.error = .cannotLockCamera("Front True Depth Camera")
-                return
-            }
-            
-        }
-        return
-        
-    }
     
-    func startVideoSession(delegate : AVCaptureDataOutputSynchronizerDelegate? = nil, completedHandler : (() -> Void)? = nil) {
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        return
+    }
+    func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]){
+        print("didStartRecordingTo")
+        print(Date().milliStamp)
+            self.viewController.player.play()
+        print(Date().milliStamp)
+    }
+    func startVideoSession() {
         self.sessionQueue.async {
             if !self.videoSession.isRunning {
                 print("[CameraManager] Start video session")
-                if let delegate = delegate {
-                    self.frontTrueDepthCameraOutputSynchronizer.setDelegate(delegate, queue: self.outputQueue)
-                }
                 self.videoSession.startRunning()
-            }
-            if let completedHandler = completedHandler {
-                completedHandler()
             }
         }
     }
-    
+    func startRecordingMovie(){
+        self.sessionQueue.async {
+            let name=String(getCurrentTime())
+            let path="\(NSHomeDirectory())/Documents/\(name).mov"
+            let url=URL(fileURLWithPath: path)
+            self.movieFileOutput.startRecording(to: url, recordingDelegate: self)
+            
+        }
+    }
+    func stopRecordingMovie(){
+            if(movieFileOutput.isRecording){
+                print("stoprecording")
+                movieFileOutput.stopRecording()
+            }
+    }
+       
     func stopVideoSession(completedHandler : (() -> Void)? = nil) {
         self.sessionQueue.async {
             if self.videoSession.isRunning {
@@ -182,7 +161,7 @@ class CameraManager {
         
         //Create input
         do {
-            self.frontTrueDepthCameraInput = try AVCaptureDeviceInput(device: frontTrueDepthCamera)
+            self.fileInput = try AVCaptureDeviceInput(device: frontTrueDepthCamera)
         }
         catch {
             self.status = .configureFailed
@@ -191,23 +170,23 @@ class CameraManager {
         }
         
         //Add input
-        guard self.videoSession.canAddInput(self.frontTrueDepthCameraInput) else {
+        guard self.videoSession.canAddInput(self.fileInput) else {
             self.status = .configureFailed
             self.error = .cannotAddInput("Front True Depth Camera")
             return false
         }
-        self.videoSession.addInput(self.frontTrueDepthCameraInput)
+        self.videoSession.addInput(self.fileInput)
         
         //Add video output
-        guard videoSession.canAddOutput(self.frontTrueDepthCameraVideoOutput) else {
+        guard videoSession.canAddOutput(self.movieFileOutput) else {
             self.status = .configureFailed
             self.error = .cannotAddOutput("Front True Depth Camera Video Data")
             return false
         }
-        videoSession.addOutput(self.frontTrueDepthCameraVideoOutput)
-        self.frontTrueDepthCameraVideoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
+        videoSession.addOutput(self.movieFileOutput)
+        //self.movieFileOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
         //self.frontTrueDepthCameraVideoOutput.videoSettings = [:]
-        guard let videoDataConnection = frontTrueDepthCameraVideoOutput.connection(with: .video) else {
+        guard let videoDataConnection = movieFileOutput.connection(with: .video) else {
             self.status = .configureFailed
             self.error = .cannotFindConnection("Front True Depth Camera Video Data")
             return false
@@ -215,70 +194,25 @@ class CameraManager {
         videoDataConnection.isEnabled = true
         videoDataConnection.videoOrientation = .portrait
         
-        //Add depth output
-
-//        guard let format=frontTrueDepthCamera.formats.first(where: {$0.isVideoHDRSupported})else{
-//            fatalError("no suitable format")
-//        }
-//        for format in frontTrueDepthCamera.formats{
-//            print(format)
-//
-//        }
-        //change format to best quality
-//        let format=frontTrueDepthCamera.formats.last!
-//        print(format)
-        
         //Lock for configuration
         do {
             //Lock device
             try frontTrueDepthCamera.lockForConfiguration()
-            //Configure exposure
-//          frontTrueDepthCamera.activeFormat=format
-            print(frontTrueDepthCamera.isExposureModeSupported(.autoExpose))
-            print(frontTrueDepthCamera.isExposureModeSupported(.continuousAutoExposure))
-            print(frontTrueDepthCamera.isExposureModeSupported(.custom))
-            print(frontTrueDepthCamera.isExposureModeSupported(.locked))
-            //frontTrueDepthCamera.exposureMode = .autoExpose
-            print("minISO:\(frontTrueDepthCamera.activeFormat.minISO)")
-            print("maxISO:\(frontTrueDepthCamera.activeFormat.maxISO)")
-            print("minExposure\(frontTrueDepthCamera.activeFormat.minExposureDuration)")
-            print("maxExposure\(frontTrueDepthCamera.activeFormat.maxExposureDuration)")
-            frontTrueDepthCamera.setExposureModeCustom(duration: CMTime(value:1 , timescale: 2000), iso: 18) { cmTime in
-            //frontTrueDepthCamera.setExposureModeCustom(duration: frontTrueDepthCamera.activeFormat.maxExposureDuration, iso: 18) { cmTime in
+            frontTrueDepthCamera.setExposureModeCustom(duration: CMTime(value:1 , timescale: 20), iso: 18) { cmTime in
                 print("Finish configure exposure")
                 print(frontTrueDepthCamera.exposureDuration)
                 print(frontTrueDepthCamera.iso)
             }
-            //Configure focus
-            //frontTrueDepthCamera.setFocusModeLocked(lensPosition: <#T##Float#>)
-            //frontTrueDepthCamera.focusMode = .locked
-            //print(frontTrueDepthCamera.focusMode.rawValue)
-            print("Focus:")
-            print(frontTrueDepthCamera.isAdjustingFocus)
-            print(frontTrueDepthCamera.focusMode.rawValue)
-            print(frontTrueDepthCamera.focusPointOfInterest)
-            print(frontTrueDepthCamera.isFocusModeSupported(.autoFocus))
-            print(frontTrueDepthCamera.isFocusModeSupported(.continuousAutoFocus))
-            print(frontTrueDepthCamera.isFocusModeSupported(.locked))
-            //Configure white
             frontTrueDepthCamera.setWhiteBalanceModeLocked(with: .init(redGain: 2.2, greenGain: 1.0, blueGain: 1.8)) { cmTimer in
-            //frontTrueDepthCamera.setWhiteBalanceModeLocked(with: .init(redGain: 1.0, greenGain: 1.0, blueGain: 1.0)) { cmTimer in
                 print("Finish configure white balance")
                 print(frontTrueDepthCamera.deviceWhiteBalanceGains)
             }
-            //frontTrueDepthCamera.whiteBalanceMode = .autoWhiteBalance
-            //frontTrueDepthCamera.whiteBalanceMode = .locked
-            //print(frontTrueDepthCamera.whiteBalanceMode.rawValue)
-            //frontTrueDepthCamera.whiteBalanceMode = .continuousAutoWhiteBalance
-            print(frontTrueDepthCamera.isWhiteBalanceModeSupported(.autoWhiteBalance))
-            print(frontTrueDepthCamera.isWhiteBalanceModeSupported(.continuousAutoWhiteBalance))
-            print(frontTrueDepthCamera.isWhiteBalanceModeSupported(.locked))
             //Configure HDR
             frontTrueDepthCamera.automaticallyAdjustsVideoHDREnabled = false
             //frontTrueDepthCamera.isVideoHDREnabled = false
             frontTrueDepthCamera.automaticallyAdjustsFaceDrivenAutoExposureEnabled=false
             //Unlock device
-            //frontTrueDepthCamera.unlockForConfiguration()
+            frontTrueDepthCamera.unlockForConfiguration()
         }
         catch {
             self.status = .configureFailed
@@ -286,11 +220,6 @@ class CameraManager {
             return false
         }
         
-        //Use an AVCaptureDataOutputSynchronizer
-        //to synchronize the video data and depth data outputs.
-        self.frontTrueDepthCameraOutputSynchronizer = AVCaptureDataOutputSynchronizer(dataOutputs: [self.frontTrueDepthCameraVideoOutput])
-
-        //Finish configure
         return true
     }
 }

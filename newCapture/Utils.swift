@@ -49,3 +49,10 @@ func getCurrentTime() -> String {
     }
     return result
 }
+extension  Date{
+    var milliStamp:String{
+        let timeInterval:TimeInterval=self.timeIntervalSince1970
+        let millisecond=CLongLong(round(timeInterval*1000))
+        return "\(millisecond)"
+    }
+}

@@ -7,22 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD4DB8C829F926CC00267CCD /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4DB8C729F926CC00267CCD /* PlayerView.swift */; };
+		AD4DB8CB29F943B600267CCD /* out.avi in Resources */ = {isa = PBXBuildFile; fileRef = AD4DB8CA29F943B600267CCD /* out.avi */; };
+		AD4DB8CD29FA228F00267CCD /* out_9.99.avi in Resources */ = {isa = PBXBuildFile; fileRef = AD4DB8CC29FA228F00267CCD /* out_9.99.avi */; };
 		AD8A389329F7C83E0026D6FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8A389229F7C83E0026D6FC /* AppDelegate.swift */; };
 		AD8A389529F7C83E0026D6FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8A389429F7C83E0026D6FC /* SceneDelegate.swift */; };
 		AD8A389729F7C83E0026D6FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8A389629F7C83E0026D6FC /* ViewController.swift */; };
 		AD8A389A29F7C83E0026D6FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD8A389829F7C83E0026D6FC /* Main.storyboard */; };
 		AD8A389C29F7C8400026D6FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD8A389B29F7C8400026D6FC /* Assets.xcassets */; };
 		AD8A389F29F7C8400026D6FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD8A389D29F7C8400026D6FC /* LaunchScreen.storyboard */; };
-		AD8A38A729F7C8810026D6FC /* CaptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8A38A629F7C8810026D6FC /* CaptureViewModel.swift */; };
-		AD8A38A929F7C8880026D6FC /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8A38A829F7C8880026D6FC /* ContentViewModel.swift */; };
 		AD8A38AC29F7C8A60026D6FC /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8A38AA29F7C8A60026D6FC /* Utils.swift */; };
-		AD8A38AD29F7C8A60026D6FC /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8A38AB29F7C8A60026D6FC /* Queue.swift */; };
-		AD8A38AF29F7C8AC0026D6FC /* DiskWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8A38AE29F7C8AC0026D6FC /* DiskWriter.swift */; };
 		AD8A38B129F7C8BD0026D6FC /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8A38B029F7C8BD0026D6FC /* CameraManager.swift */; };
 		AD8A38B429F7C95B0026D6FC /* Atomics in Frameworks */ = {isa = PBXBuildFile; productRef = AD8A38B329F7C95B0026D6FC /* Atomics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AD4DB8C729F926CC00267CCD /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		AD4DB8CA29F943B600267CCD /* out.avi */ = {isa = PBXFileReference; lastKnownFileType = video.avi; path = out.avi; sourceTree = "<group>"; };
+		AD4DB8CC29FA228F00267CCD /* out_9.99.avi */ = {isa = PBXFileReference; lastKnownFileType = video.avi; path = out_9.99.avi; sourceTree = "<group>"; };
 		AD8A388F29F7C83E0026D6FC /* newCapture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = newCapture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD8A389229F7C83E0026D6FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AD8A389429F7C83E0026D6FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -31,11 +33,7 @@
 		AD8A389B29F7C8400026D6FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AD8A389E29F7C8400026D6FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AD8A38A029F7C8400026D6FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AD8A38A629F7C8810026D6FC /* CaptureViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureViewModel.swift; sourceTree = "<group>"; };
-		AD8A38A829F7C8880026D6FC /* ContentViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		AD8A38AA29F7C8A60026D6FC /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		AD8A38AB29F7C8A60026D6FC /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
-		AD8A38AE29F7C8AC0026D6FC /* DiskWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskWriter.swift; sourceTree = "<group>"; };
 		AD8A38B029F7C8BD0026D6FC /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -54,6 +52,8 @@
 		AD8A388629F7C83E0026D6FC = {
 			isa = PBXGroup;
 			children = (
+				AD4DB8CC29FA228F00267CCD /* out_9.99.avi */,
+				AD4DB8CA29F943B600267CCD /* out.avi */,
 				AD8A389129F7C83E0026D6FC /* newCapture */,
 				AD8A389029F7C83E0026D6FC /* Products */,
 			);
@@ -74,15 +74,12 @@
 				AD8A389429F7C83E0026D6FC /* SceneDelegate.swift */,
 				AD8A389629F7C83E0026D6FC /* ViewController.swift */,
 				AD8A38B029F7C8BD0026D6FC /* CameraManager.swift */,
-				AD8A38A629F7C8810026D6FC /* CaptureViewModel.swift */,
-				AD8A38A829F7C8880026D6FC /* ContentViewModel.swift */,
-				AD8A38AB29F7C8A60026D6FC /* Queue.swift */,
 				AD8A38AA29F7C8A60026D6FC /* Utils.swift */,
-				AD8A38AE29F7C8AC0026D6FC /* DiskWriter.swift */,
 				AD8A389829F7C83E0026D6FC /* Main.storyboard */,
 				AD8A389B29F7C8400026D6FC /* Assets.xcassets */,
 				AD8A389D29F7C8400026D6FC /* LaunchScreen.storyboard */,
 				AD8A38A029F7C8400026D6FC /* Info.plist */,
+				AD4DB8C729F926CC00267CCD /* PlayerView.swift */,
 			);
 			path = newCapture;
 			sourceTree = "<group>";
@@ -151,6 +148,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD4DB8CD29FA228F00267CCD /* out_9.99.avi in Resources */,
+				AD4DB8CB29F943B600267CCD /* out.avi in Resources */,
 				AD8A389F29F7C8400026D6FC /* LaunchScreen.storyboard in Resources */,
 				AD8A389C29F7C8400026D6FC /* Assets.xcassets in Resources */,
 				AD8A389A29F7C83E0026D6FC /* Main.storyboard in Resources */,
@@ -165,12 +164,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD8A389729F7C83E0026D6FC /* ViewController.swift in Sources */,
-				AD8A38AD29F7C8A60026D6FC /* Queue.swift in Sources */,
-				AD8A38A729F7C8810026D6FC /* CaptureViewModel.swift in Sources */,
-				AD8A38AF29F7C8AC0026D6FC /* DiskWriter.swift in Sources */,
 				AD8A389329F7C83E0026D6FC /* AppDelegate.swift in Sources */,
 				AD8A389529F7C83E0026D6FC /* SceneDelegate.swift in Sources */,
-				AD8A38A929F7C8880026D6FC /* ContentViewModel.swift in Sources */,
+				AD4DB8C829F926CC00267CCD /* PlayerView.swift in Sources */,
 				AD8A38B129F7C8BD0026D6FC /* CameraManager.swift in Sources */,
 				AD8A38AC29F7C8A60026D6FC /* Utils.swift in Sources */,
 			);
@@ -322,11 +318,14 @@
 				DEVELOPMENT_TEAM = 2GL284PF98;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = newCapture/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "use to capture ";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -351,11 +350,14 @@
 				DEVELOPMENT_TEAM = 2GL284PF98;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = newCapture/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "use to capture ";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
